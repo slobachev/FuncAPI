@@ -3,10 +3,11 @@ open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
 open Giraffe
+open FuncAPI.Http
 
 let routes =
     choose [
-        route "/" >=> text "Hello World from F#!" ]
+        TodoHttp.handlers ]
 
 let configureApp (app : IApplicationBuilder) =
     app.UseGiraffe routes
