@@ -5,3 +5,10 @@ type Todo =
     Text: string
     Done: bool
   }
+
+  type TodoSave = Todo -> Todo
+
+  type TodoCriteria = 
+    | All
+
+type TodoFind = TodoCriteria -> Todo[]

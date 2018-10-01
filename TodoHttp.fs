@@ -2,6 +2,7 @@ namespace FuncAPI.Http
 
 open Giraffe
 open Microsoft.AspNetCore.Http
+open FuncAPI
 
 module TodoHttp =
   let handlers : HttpFunc -> HttpContext -> HttpFuncResult =
@@ -12,7 +13,9 @@ module TodoHttp =
 
       GET >=> route "/todos" >=>
         fun next context ->
-          text "Read" next context
+        let find = context.GetService<TodoFind>()
+        let todos = find TodoCriteria.All
+        json todos next context
 
       PUT >=> routef "/todos/%s" (fun id ->
         fun next context ->
