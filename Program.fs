@@ -6,6 +6,7 @@ open Microsoft.Extensions.DependencyInjection
 open Giraffe
 open FuncAPI.Http
 open FuncAPI
+open FuncAPI.TodoInMemory
 open System.Collections
 
 let routes =
@@ -17,8 +18,9 @@ let configureApp (app : IApplicationBuilder) =
 
 let configureServices (services : IServiceCollection) =
   let inMemory = Hashtable()
-  
+
   services.AddGiraffe() |> ignore
+  services.AddTodoInMemory(Hashtable()) |> ignore
   services.AddSingleton<TodoFind>(TodoInMemory.find inMemory) |> ignore
   services.AddSingleton<TodoSave>(TodoInMemory.save inMemory) |> ignore
 

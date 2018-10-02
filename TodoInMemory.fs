@@ -11,3 +11,8 @@ let find (inMemory : Hashtable) (criteria : TodoCriteria) : Todo[] =
 let save (inMemory : Hashtable) (todo: Todo) : Todo =
     inMemory.Add(todo.Id, todo) |> ignore
     todo
+
+type IServiceCollection with
+  member this.AddTodoInMemory (inMemory : Hashtable) =
+    this.AddSingleton<TodoFind>(find inMemory) |> ignore
+    this.AddSingleton<TodoSave>(save inMemory) |> ignore

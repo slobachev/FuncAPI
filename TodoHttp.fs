@@ -3,13 +3,20 @@ namespace FuncAPI.Http
 open Giraffe
 open Microsoft.AspNetCore.Http
 open FuncAPI
+open System
+open FSharp.Control.Tasks.V2
 
 module TodoHttp =
   let handlers : HttpFunc -> HttpContext -> HttpFuncResult =
     choose [
       POST >=> route "/todos" >=>
         fun next context ->
-          text "Create" next context
+            task {
+                let save = context.GetService<TodoSave>()
+                let! todo = context.BindJsonAsync<Todo>()
+                let todo = { todo with Id = ShortGuid.fromGuid(Guid.NewGuid()) }
+                return! json (save todo) next context
+            }
 
       GET >=> route "/todos" >=>
         fun next context ->
