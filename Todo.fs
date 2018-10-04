@@ -6,9 +6,11 @@ type Todo =
     Done: bool
   }
 
-  type TodoSave = Todo -> Todo
-
   type TodoCriteria = 
     | All
 
 type TodoFind = TodoCriteria -> Todo[]
+
+type TodoSave = Todo -> Todo
+
+type TodoDelete = string -> bool

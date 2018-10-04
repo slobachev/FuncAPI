@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="Todo.fs" />
     <Compile Include="TodoInMemory.fs" />
+    <Compile Include="TodoMongoDb.fs" />
     <Compile Include="TodoHttp.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
