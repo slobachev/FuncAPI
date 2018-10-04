@@ -30,5 +30,6 @@ module TodoHttp =
 
       DELETE >=> routef "/todos/%s" (fun id ->
         fun next context ->
-          text ("Delete " + id) next context)
+          let delete = context.GetService<TodoDelete>()
+          json (delete id) next context)
     ]

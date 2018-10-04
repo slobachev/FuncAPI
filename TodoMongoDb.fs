@@ -28,7 +28,7 @@ let delete (collection : IMongoCollection<Todo>) (id : string) : bool =
     collection.DeleteOne(Builders<Todo>.Filter.Eq((fun x -> x.Id), id)).DeletedCount > 0L
 
 type IServiceCollection with
-  member this.AddTodoInMemory (collection : IMongoCollection<Todo>) =
+  member this.AddTodoMongoDB (collection : IMongoCollection<Todo>) =
     this.AddSingleton<TodoFind>(find collection) |> ignore
     this.AddSingleton<TodoSave>(save collection) |> ignore
     this.AddSingleton<TodoDelete>(delete collection) |> ignore

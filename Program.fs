@@ -6,8 +6,8 @@ open Microsoft.Extensions.DependencyInjection
 open Giraffe
 open FuncAPI.Http
 open FuncAPI
-open FuncAPI.TodoInMemory
-open System.Collections
+open FuncAPI.TodoMongoDb
+open MongoDB.Driver
 
 let routes =
   choose [
@@ -17,12 +17,11 @@ let configureApp (app : IApplicationBuilder) =
   app.UseGiraffe routes
 
 let configureServices (services : IServiceCollection) =
-  let inMemory = Hashtable()
+  let mongo = MongoClient (Environment.GetEnvironmentVariable "MONGO_URL")
+  let db = mongo.GetDatabase "todos"
 
   services.AddGiraffe() |> ignore
-  services.AddTodoInMemory(Hashtable()) |> ignore
-  services.AddSingleton<TodoFind>(TodoInMemory.find inMemory) |> ignore
-  services.AddSingleton<TodoSave>(TodoInMemory.save inMemory) |> ignore
+  services.AddTodoMongoDB(db.GetCollection<Todo>("todos")) |> ignore
 
 [<EntryPoint>]
 let main _ =
